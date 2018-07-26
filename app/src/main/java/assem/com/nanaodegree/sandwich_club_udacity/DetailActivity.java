@@ -77,17 +77,18 @@ public class DetailActivity extends AppCompatActivity {
     private void populateUI() {
         mPlaceOfOrigin.setText(sandwich.getPlaceOfOrigin());
         mDescription.setText(sandwich.getDescription());
-        StringBuilder str = new StringBuilder();
+
+        StringBuilder str1 = new StringBuilder();
 
         for (int i = 0; i < sandwich.getAlsoKnownAs().size(); i++) {
             //if is included to add comma.
             if (i < sandwich.getAlsoKnownAs().size()) {
-                str.append(sandwich.getAlsoKnownAs().get(i) + "," + " ");
+                str1.append(sandwich.getAlsoKnownAs().get(i) + "," + " ");
             } else {
-                str.append(sandwich.getAlsoKnownAs().get(i) + "");
+                str1.append(sandwich.getAlsoKnownAs().get(i) + "");
             }
         }
-        mAlsoKnownAs.setText(str);
+        mAlsoKnownAs.setText(str1);
 
         StringBuilder str2 = new StringBuilder();
 
