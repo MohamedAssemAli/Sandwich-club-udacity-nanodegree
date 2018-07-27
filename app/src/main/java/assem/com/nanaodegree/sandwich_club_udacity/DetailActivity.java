@@ -3,6 +3,7 @@ package assem.com.nanaodegree.sandwich_club_udacity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,10 +61,10 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         populateUI();
-        Log.d(TAG, "Sandwich obj img : " + sandwich.getImage());
-        // Image may not shown because it need good connection or it's not available yet on wikimedia
         Picasso.with(this)
                 .load(sandwich.getImage())
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .into(ingredientsIv);
 
         setTitle(sandwich.getMainName());
@@ -77,29 +78,7 @@ public class DetailActivity extends AppCompatActivity {
     private void populateUI() {
         mPlaceOfOrigin.setText(sandwich.getPlaceOfOrigin());
         mDescription.setText(sandwich.getDescription());
-
-        StringBuilder str1 = new StringBuilder();
-
-        for (int i = 0; i < sandwich.getAlsoKnownAs().size(); i++) {
-            //if is included to add comma.
-            if (i < sandwich.getAlsoKnownAs().size()) {
-                str1.append(sandwich.getAlsoKnownAs().get(i) + "," + " ");
-            } else {
-                str1.append(sandwich.getAlsoKnownAs().get(i) + "");
-            }
-        }
-        mAlsoKnownAs.setText(str1);
-
-        StringBuilder str2 = new StringBuilder();
-
-        for (int i = 0; i < sandwich.getIngredients().size(); i++) {
-            //if is included to add comma.
-            if (i < sandwich.getIngredients().size()) {
-                str2.append(sandwich.getIngredients().get(i) + "," + " ");
-            } else {
-                str2.append(sandwich.getIngredients().get(i) + "");
-            }
-        }
-        mIngredients.setText(str2);
+        mAlsoKnownAs.setText(TextUtils.join(", ", sandwich.getAlsoKnownAs()));
+        mIngredients.setText(TextUtils.join(", ", sandwich.getIngredients()));
     }
 }

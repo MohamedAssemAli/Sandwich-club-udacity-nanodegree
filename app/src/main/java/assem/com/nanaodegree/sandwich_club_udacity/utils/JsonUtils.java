@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import assem.com.nanaodegree.sandwich_club_udacity.R;
 import assem.com.nanaodegree.sandwich_club_udacity.model.Sandwich;
 
 public class JsonUtils {
@@ -36,7 +37,7 @@ public class JsonUtils {
             Log.d(TAG, "parseSandwichJson called : jsonObject ::  " + jsonObject);
 
             JSONObject nameObject = jsonObject.getJSONObject(NAME_OBJ);
-            String mainName = nameObject.getString(MAIN_NAME);
+            String mainName = nameObject.optString(MAIN_NAME, String.valueOf(R.string.no_data));
 
             // Parsing alsoKnownAs Json Array
             JSONArray alsoKnownAsJsonArray = nameObject.getJSONArray(ALSO_KNOWN_AS);
@@ -51,7 +52,15 @@ public class JsonUtils {
 
             // Parsing the remaining items
             String placeOfOrigin = jsonObject.getString(PLACE_OF_ORIGIN);
+            // Check empty placeOfOrigin
+            if (placeOfOrigin.isEmpty())
+                placeOfOrigin = infoNotAvailable;
+
             String description = jsonObject.getString(DESCRIPTION);
+            // Check empty desc
+            if (description.isEmpty())
+                description = infoNotAvailable;
+
             String image = jsonObject.getString(IMAGE);
 
             // Parsing ingredients Json Array
@@ -64,13 +73,9 @@ public class JsonUtils {
             } else {
                 ingredientsList.add(infoNotAvailable);
             }
-
             sandwich = new Sandwich(mainName, alsoKnownAsList, placeOfOrigin, description, image, ingredientsList);
-        } catch (
-                JSONException e)
-
-        {
-            e.printStackTrace();
+        } catch (JSONException e) {
+            Log.d(TAG, "Catch exception : " + e.toString());
         }
         return sandwich;
     }
